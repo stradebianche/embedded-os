@@ -1,13 +1,15 @@
------README FILE------
+# --------------------------------------------------------------- #
+# ------------------------- README FILE ------------------------- #
+# --------------------------------------------------------------- #
+# -------- Simple operating system for embedded devices --------- #
+# --------------------------------------------------------------- #
+# ------------------- Author: Bartlomiej Flak ------------------- #
+# --------------------------------------------------------------- #
 
----Simple operating system for embedded devices.
 
 Functionality:
-
   # Multi tasking (round robin scheduling)
 
 Currently supported devices:
-
-  # AVR
-    -ATmega16
+  # ATmega16
   
