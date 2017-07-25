@@ -1,1 +1,5 @@
+# ---------- info file ---------- #
 
+arch - contains all port specific components (detailed description inside files)
+
+kernel - contains system kernel code (description inside files)
