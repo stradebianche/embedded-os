@@ -15,7 +15,7 @@ static Queue task_queue;
 static eTaskControlBlock *tcb;
 
 /* Declaration of idle task handler function. */
-static void idle_task(void);
+static void idle_task( void );
 
 
 /*
@@ -44,7 +44,7 @@ int os_create_task( task_func_t func_handler, size_t stack_size ) {
  *  This function is called by user when tasks have been created,
  *	system is initialized and now is time to start party.
  */
-void os_start_task_scheduler() {
+void os_start_task_scheduler( void ) {
 
 	/* No tasks to execute so simply run idle task */
 	if( task_queue.number_of_elements < 1 ) {

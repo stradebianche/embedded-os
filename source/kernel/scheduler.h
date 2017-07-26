@@ -2,6 +2,7 @@
 #define SCHEDULER_H_
 
 #include "task.h"
+#include "os_config.h"
 
 /* Function prototypes ------------------------------------------------------- */
 

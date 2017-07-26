@@ -11,11 +11,6 @@
 
 /* Macro definitions --------------------------------------------------------- */
 
-/* Stack definitions. */
-#define STACK_MIN_SIZE	64
-#define STACK_MID_SIZE	128
-#define STACK_MAX_SIZE	256
-
 
 /* Function prototypes ------------------------------------------------------- */
 
