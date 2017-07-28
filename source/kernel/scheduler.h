@@ -4,6 +4,16 @@
 #include "task.h"
 #include "os_config.h"
 
+/* Types definitions ------------------------------------------------------- */
+
+/* Task states */
+typedef enum {
+	TASK_STATE_RUNNING = 0,
+	TASK_STATE_READY,
+	TASK_STATE_WAIT
+} task_state_t;
+
+
 /* Function prototypes ------------------------------------------------------- */
 
 /*
