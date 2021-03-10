@@ -1,6 +1,5 @@
 /*
  * v8bsp
- *
  * Configuration file for ARMv8
  */
  
