@@ -1,5 +1,5 @@
-#INCLUDES += -I./drivers/include
-#INCLUDES += -I./drivers
+INCLUDES += -I./drivers/include
+INCLUDES += -I./drivers
 
 OBJS += boards/translation_tables.o
 
