@@ -14,10 +14,10 @@
 
 /*
  * TTBR0_El1 -> mmu_table_l0 -> mmu_table_l1 -> mmu_table_l2:
- *     												mmu_table_l2:
- *      												- 2 MB region 1st
- * 														...
- *         												- 2 MB region Nth
+ * 							mmu_table_l2:
+ *      						- 2 MB region 1st
+ * 							...
+ * 							- 2 MB region Nth
  */
 
 .section .mmu_tbl_0,"a"

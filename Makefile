@@ -1,11 +1,12 @@
-INCLUDES += -I./drivers/include
-INCLUDES += -I./drivers
+#INCLUDES += -I./drivers/include
+#INCLUDES += -I./drivers
 
 OBJS += boards/translation_tables.o
 
 OBJS += boot/main.o \
 boot/startup.o \
-boot/boot.o
+boot/boot.o \
+boot/vectors.o
 
 CFLAG = -Wall -g
 CC = aarch64-none-elf-gcc

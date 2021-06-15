@@ -59,6 +59,28 @@ init_el1:
 	and x0, x1, #0xfffffffffffffff0
 	mov sp, x0
 
+	/* set vector table base address */
+	ldr x0, =vector_table
+	msr vbar_el1, x0
+
+	/* set translation table base address */
+	ldr x0, =mmu_table_l0
+	msr ttbr0_el1, x0
+
+	/* enable mmu, caches, sp aligment */
+	// https://developer.arm.com/documentation/ddi0601/2021-03/AArch64-Registers/SCTLR-EL1--System-Control-Register--EL1-?lang=en
+	mov x1, xzr
+	//orr x1, x1, #(1 << 12)      // I caches
+	orr x1, x1, #(1 << 3)
+	//orr x1, x1, #(1 << 2)	  // D caches
+	//orr x1, x1, #(1 << 0)
+	msr sctlr_el1, x1
+
+	/* enable SError */
+	mrs x0, daif
+	bic x0, x0, #(1 << 8)
+	msr daif, x0
+
 	mov x0, xzr
 	mov x1, xzr
 
@@ -66,4 +88,3 @@ init_el1:
 
 error:
 	b .
-
