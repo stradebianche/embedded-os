@@ -18,7 +18,7 @@ SECTIONS
 	/*. = CONFIG_MEMORY_BASE + 0x1000;*/
 	
 	/* Code section */
-	. = ALIGN(4);
+	. = ALIGN(8);
 	.text	:
 	{
 		*(.text)
@@ -35,7 +35,7 @@ SECTIONS
 		*(.data)
 	}
 	
-	. = ALIGN(4);
+	. = ALIGN(8);
 	bss_start = .;
 	.bss	:
 	{
@@ -45,24 +45,21 @@ SECTIONS
 	}
 	
 	/* Stack section */
-	. = ALIGN(16);
+	. = ALIGN(16);			/* SP has to be 16-byte aligned */
 	. = . + 0x1000;
 	stack_top = .; 
 
 	/* Translation tables */
-	. = ALIGN(16);
+	. = ALIGN(4096);		/* Tables has to be properly aligned */
 	.mmu_tbl_0 : {
    		*(.mmu_tbl_0)
 	}
-
-	. = ALIGN(16);
+	. = ALIGN(4096);
 	.mmu_tbl_1 : {
    		*(.mmu_tbl_1)
 	}
-
-	. = ALIGN(16);
+	. = ALIGN(4096);
 	.mmu_tbl_2 : {
    		*(.mmu_tbl_2)
 	}
 }
-

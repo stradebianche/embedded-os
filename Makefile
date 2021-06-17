@@ -6,12 +6,15 @@ OBJS += boards/translation_tables.o
 OBJS += boot/main.o \
 boot/startup.o \
 boot/boot.o \
-boot/vectors.o
+boot/vectors.o \
 
-CFLAG = -Wall -g
+OBJS += \
+./drivers/xilinx_uart_ps.o
+
+CFLAG = -Wall -g -O0
 CC = aarch64-none-elf-gcc
 LIBS =
-LINKER_PATH = ./boards/linker-qemu.ld
+LINKER_PATH = ./boards/linker-ultrazed.ld
 
 boards/%.o: boards/%.S
 	$(CC) $(CFLAGS) -c $(INCLUDES) -o $@ $<

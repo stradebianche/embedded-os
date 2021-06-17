@@ -15,7 +15,7 @@
 /*
  * TTBR0_El1 -> mmu_table_l0 -> mmu_table_l1 -> mmu_table_l2:
  * 							mmu_table_l2:
- *      						- 2 MB region 1st
+ * 							- 2 MB region 1st
  * 							...
  * 							- 2 MB region Nth
  */
@@ -75,8 +75,8 @@ mmu_table_l2:
 	.8byte  SECT + reserved
 	.set    SECT, SECT + 0x200000
 	.endr
-	.rept	0x6							/* 0xFFC0_0000 to 0xFFBF_FFFF */
-	.8byte	SECT + device				/* LPD Slaves: PS UART, etc. */
+	.rept	0x6						/* 0xFF00_0000 to 0xFFBF_FFFF */
+	.8byte	SECT + device					/* LPD Slaves: PS UART, etc. */
 	.set	SECT, SECT + 0x200000
 	.endr
 	.rept   0x2
