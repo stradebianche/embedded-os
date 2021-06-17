@@ -31,7 +31,14 @@ caddr_t _sbrk (int incr)
 
 int main(void) {
 
+	char inbyte = 0;
+
 	uartps_puts("Hello scheduler\n");
+
+	while (!uartps_getc(&inbyte)) {
+	}
+	uartps_puts("Received: ");
+	uartps_putc(inbyte);
 
 	// unsigned int current_el;
 
