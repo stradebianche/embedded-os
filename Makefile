@@ -17,13 +17,16 @@ LIBS =
 LINKER_PATH = ./boards/linker-ultrazed.ld
 
 boards/%.o: boards/%.S
-	$(CC) $(CFLAGS) -c $(INCLUDES) -o $@ $<
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 boot/%.o: boot/%.c
-	$(CC) $(INCLUDES) -c -o $@ $<
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 boot/%.o: boot/%.S
-	$(CC) $(INCLUDES) -c -o $@ $<
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+
+drivers/%.o: drivers/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 image.elf:${OBJS}
 	@echo 'Building target: $@'

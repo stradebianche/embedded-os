@@ -31,37 +31,26 @@ caddr_t _sbrk (int incr)
 
 int main(void) {
 
+	char inbuf[28];
+	char *pinbuf = inbuf;
 	char inbyte = 0;
 
 	uartps_puts("Hello scheduler\n");
 
-	while (!uartps_getc(&inbyte)) {
+	for (;;) {
+		bool status = uartps_getc(&inbyte);
+		if (status) {
+			if (inbyte != 10 && inbyte != 13) {
+				*pinbuf++ = inbyte;
+			} else {
+				*pinbuf++ = '\0';
+				break;
+			}
+		}
 	}
-	uartps_puts("Received: ");
-	uartps_putc(inbyte);
 
-	// unsigned int current_el;
-
-	// GET_CURRENT_EL(current_el);
-	// current_el = (current_el >> 2);
-
-	// switch(current_el) {
-	// case 3:
-	// 	puts_uart("current el: 3\n");
-	// 	break;
-	// case 2:
-	// 	puts_uart("current el: 2\n");
-	// 	break;
-	// case 1:
-	// 	puts_uart("current el: 1\n");
-	// 	break;
-	// case 0:
-	// 	puts_uart("current el: 0\n");
-	// 	break;		
-	// default:
-	// 	puts_uart("current el: error\n");
-	// 	break;
-	// }
+	uartps_puts("received: ");
+	uartps_puts(inbuf);
 
 	return 0;
 }
