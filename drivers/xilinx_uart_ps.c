@@ -2,13 +2,15 @@
 #include "sysio.h"
 #include "xilinx_uart_ps.h"
 
-#define UARTPS_ADDRESS_BASE	0xFF000000
-#define UARTPS_SR_OFFSET	0x2C
-#define UARTPS_FIFO_OFFSET	0x30
+#define UARTPS_ADDRESS_BASE	0xFF000000U
+#define UARTPS_SR_OFFSET	0x0000002CU
+#define UARTPS_FIFO_OFFSET	0x00000030U
+#define UARTPS_SR_TXFULL	0x00000010U
 
 void uartps_putc(char data)
 {
-	// TODO: check is buffer empty
+	while (sys_read32(UARTPS_ADDRESS_BASE + UARTPS_SR_OFFSET) & UARTPS_SR_TXFULL == UARTPS_SR_TXFULL);
+
 	sys_write32(data, (uintptr_t)(UARTPS_ADDRESS_BASE + UARTPS_FIFO_OFFSET));
 }
 
