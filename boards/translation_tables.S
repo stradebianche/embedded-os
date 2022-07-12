@@ -71,15 +71,23 @@ mmu_table_l2:
 	.endr
 
 	/* 4th GiB */
-	.rept   0x1F8						/* 0xC000_0000 to FFFF_FFFF */
-	.8byte  SECT + reserved
+	.rept   0x1C8						/* 0xC000_0000 to 0xF8FF_FFFF */
+	.8byte  SECT + reserved					/* reserved */
 	.set    SECT, SECT + 0x200000
 	.endr
+	.rept	0x1						/* 0xF900_0000 to 0xF91F_FFFF */
+	.8byte	SECT + device					/* GIC v2 */
+	.set	SECT, SECT + 0x200000
+	.endr
+	.rept	0x2F						/* 0xF9200_0000 to 0xFEFF_FFFF */
+	.8byte	SECT + reserved					/* reserved */
+	.set	SECT, SECT + 0x200000
+	.endr	
 	.rept	0x6						/* 0xFF00_0000 to 0xFFBF_FFFF */
 	.8byte	SECT + device					/* LPD Slaves: PS UART, etc. */
 	.set	SECT, SECT + 0x200000
 	.endr
-	.rept   0x2
-	.8byte  SECT + reserved
+	.rept   0x2						/* 0xFFC0_0000 to 0xFFFF_FFFF */
+	.8byte  SECT + reserved					/* reserved */
 	.set    SECT, SECT + 0x200000
 	.endr

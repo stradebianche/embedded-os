@@ -2,7 +2,10 @@
 #include <unistd.h>
 #include "pseudo_asm.h"
 
+#include "gicv2.h"
 #include "xilinx_uart_ps.h"
+
+#define IRQ_TIMER_CNTNCT_EL0 27
 
 volatile unsigned int * const UART0DR = (unsigned int *)0x09000000;
 
@@ -31,27 +34,25 @@ caddr_t _sbrk (int incr)
 
 int main(void) {
 
-	char inbuf[28];
-	char *pinbuf = inbuf;
-	char inbyte = 0;
+	uartps_puts("12/07/2022\r\n");
 
-	uartps_puts("Hello scheduler\n");
+	/* test interrupt */
+	/* EL3(S) --> By default IRQ/FIQ belongs to Group0 (Secure) */
+	gicv2_dist_init();
+	gicv2_cpu_init();
+	gicv2_set_irq_unmask(IRQ_TIMER_CNTNCT_EL0);
 
-	for (;;) {
-		bool status = uartps_getc(&inbyte);
-		if (status) {
-			if (inbyte != 10 && inbyte != 13) {
-				*pinbuf++ = inbyte;
-			} else {
-				*pinbuf++ = '\0';
-				break;
-			}
-		}
-	}
+	asm volatile ("msr daifclr, #0x0f");
 
-	uartps_puts("received: ");
-	uartps_puts(inbuf);
+	/* setup arm arch timer */
+	asm volatile ("mrs x0, CNTVCT_EL0");
+	asm volatile ("isb");
+	asm volatile ("add x0, x0, #1000");
+	asm volatile ("msr CNTV_CVAL_EL0, x0");
 
-	return 0;
+	/* enable timer */
+	asm volatile ("mov x0, #1");
+	asm volatile ("msr CNTV_CTL_EL0, x0");
+
+    for(;;);
 }
-
