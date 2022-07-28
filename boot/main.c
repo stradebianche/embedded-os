@@ -31,10 +31,11 @@ caddr_t _sbrk (int incr)
 	return 0;
 }
 
+volatile int systick = false;
 
 int main(void) {
 
-	uartps_puts("12/07/2022\r\n");
+	uartps_puts("28/07/2022\r\n");
 
 	/* test interrupt */
 	/* EL3(S) --> By default IRQ/FIQ belongs to Group0 (Secure) */
@@ -42,6 +43,7 @@ int main(void) {
 	gicv2_cpu_init();
 	gicv2_set_irq_unmask(IRQ_TIMER_CNTNCT_EL0);
 
+	/* enable exceptions */
 	asm volatile ("msr daifclr, #0x0f");
 
 	/* setup arm arch timer */
@@ -54,5 +56,10 @@ int main(void) {
 	asm volatile ("mov x0, #1");
 	asm volatile ("msr CNTV_CTL_EL0, x0");
 
-    for(;;);
+    for(;;) {
+		if (systick) {
+			uartps_puts("systick\r\n");
+			systick = 0;
+		}
+	}
 }

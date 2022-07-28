@@ -13,10 +13,11 @@ vector_table:
 	.org(vector_table + 0x180)
 	b .
 
+	/* Current EL with SP_ELx, x>0 */
 	.org(vector_table + 0x200)
 	b .
-	.org(vector_table + 0x280)
-	b .
+	.org(vector_table + 0x280) // IRQ/FIQ
+	b irq_handler
 	.org(vector_table + 0x300)
 	b .
 	.org(vector_table + 0x380)

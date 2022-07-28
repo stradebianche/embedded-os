@@ -11,6 +11,8 @@
 
 #define GICV2_GICC_CTLR         (GICV2_ACPU_BASE_ADDRESS + 0x00000000U)
 #define GICV2_GICC_PMR          (GICV2_ACPU_BASE_ADDRESS + 0x00000004U)
+#define GICV2_GICC_IAR  	    (GICV2_ACPU_BASE_ADDRESS + 0x0000000CU)
+#define GICV2_GICC_EOIR		    (GICV2_ACPU_BASE_ADDRESS + 0x00000010U)
 
 
 int gicv2_dist_init()
@@ -79,4 +81,14 @@ int gicv2_set_gic_priority_mask(unsigned int priority_mask)
 {
     sys_write32(priority_mask, GICV2_GICC_PMR);
     return 0;
+}
+
+unsigned int gicv2_read_iar()
+{
+    return sys_read32(GICV2_GICC_IAR);
+}
+
+void gicv2_write_eoir(unsigned int int_id)
+{
+    sys_write32(int_id, GICV2_GICC_EOIR);
 }

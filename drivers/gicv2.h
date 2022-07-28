@@ -18,4 +18,8 @@ int gicv2_set_irq_unmask(unsigned int irq);
 
 int gicv2_set_gic_priority_mask(unsigned int priority_mask);
 
+unsigned int gicv2_read_iar();
+
+void gicv2_write_eoir(unsigned int int_id);
+
 #endif
