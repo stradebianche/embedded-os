@@ -12,7 +12,8 @@ boot/os_interrupt_handler.o \
 
 OBJS += \
 ./drivers/xilinx_uart_ps.o \
-./drivers/gicv2.o
+./drivers/gicv2.o \
+./drivers/arch_timer.o \
 
 CFLAG = -Wall -g -O0
 CC = aarch64-none-elf-gcc

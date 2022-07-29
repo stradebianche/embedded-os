@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "pseudo_asm.h"
-
 #include "gicv2.h"
 #include "xilinx_uart_ps.h"
+#include "arch_timer.h"
 
 #define IRQ_TIMER_CNTNCT_EL0 27
 
@@ -35,7 +35,7 @@ volatile int systick = false;
 
 int main(void) {
 
-	uartps_puts("28/07/2022\r\n");
+	uartps_puts("29/07/2022\r\n");
 
 	/* test interrupt */
 	/* EL3(S) --> By default IRQ/FIQ belongs to Group0 (Secure) */
@@ -47,14 +47,11 @@ int main(void) {
 	asm volatile ("msr daifclr, #0x0f");
 
 	/* setup arm arch timer */
-	asm volatile ("mrs x0, CNTVCT_EL0");
-	asm volatile ("isb");
-	asm volatile ("add x0, x0, #1000");
-	asm volatile ("msr CNTV_CVAL_EL0, x0");
+    unsigned long long counter = arch_timer_get_count();
+    arch_timer_set_comp_value(counter + (unsigned long long)0x1000);
 
 	/* enable timer */
-	asm volatile ("mov x0, #1");
-	asm volatile ("msr CNTV_CTL_EL0, x0");
+	arch_timer_enable();
 
     for(;;) {
 		if (systick) {

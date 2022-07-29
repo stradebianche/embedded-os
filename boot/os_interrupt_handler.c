@@ -1,11 +1,14 @@
 #include "sysio.h"
 #include "gicv2.h"
+#include "arch_timer.h"
 
 extern int systick;
 
 void os_interrupt_handler(void) 
 {
     unsigned int int_id;
+    unsigned long long counter;
+
     /* read ACK register */
     int_id = gicv2_read_iar();
 
@@ -20,15 +23,9 @@ void os_interrupt_handler(void)
 
     switch(int_id) {
     case 27:
-        asm volatile ("nop");
-	    asm volatile ("mrs x0, cntvct_el0");    /* store current counter value into x0 */
-	    asm volatile ("isb");
-	    asm volatile ("mov x1, #1");
-	    asm volatile ("lsl x1, x1, #28");
-	    asm volatile ("add x0, x0, x1");        /* add 2^28 to the counter value */
+        counter = arch_timer_get_count();
         /* writing value bigger than current CNTVCT_EL0 will clear irq bit in CNTV_CTL_EL0 */
-	    asm volatile ("msr cntv_cval_el0, x0");
-
+        arch_timer_set_comp_value(counter + (unsigned long long)0x10000000);
         systick = 1;
         break;
     default:

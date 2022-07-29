@@ -9,5 +9,4 @@ Boot code for ARMv8. Just to learn more about ARMv8 architecture.
   $ ./qemu/run.sh  
 
  ## TODO
-  - Add gic driver, enable interrupts
   - Add arch timer, add systick interrupt
