@@ -9,6 +9,7 @@ boot/boot.o \
 boot/vectors.o \
 boot/irq_fiq_handler.o \
 boot/os_interrupt_handler.o \
+boot/exceptions.o \
 
 OBJS += \
 ./drivers/xilinx_uart_ps.o \

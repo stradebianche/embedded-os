@@ -8,9 +8,9 @@
 .globl  mmu_table_l1
 .globl  mmu_table_l2
 
-.set reserved,	0x0 					
-.set memory,	0x405 | (2 << 8) | (0x0)
-.set device,	0x409 | (1 << 53)| (1 << 54) |(0x0)
+.set    reserved,    0x0 					
+.set    memory,	     0x405 | (2 << 8) | (0x0)
+.set    device,	     0x409 | (1 << 53)| (1 << 54) |(0x0)
 
 /*
  * TTBR0_El1 -> mmu_table_l0 -> mmu_table_l1 -> mmu_table_l2:

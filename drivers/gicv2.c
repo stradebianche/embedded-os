@@ -11,8 +11,8 @@
 
 #define GICV2_GICC_CTLR         (GICV2_ACPU_BASE_ADDRESS + 0x00000000U)
 #define GICV2_GICC_PMR          (GICV2_ACPU_BASE_ADDRESS + 0x00000004U)
-#define GICV2_GICC_IAR  	    (GICV2_ACPU_BASE_ADDRESS + 0x0000000CU)
-#define GICV2_GICC_EOIR		    (GICV2_ACPU_BASE_ADDRESS + 0x00000010U)
+#define GICV2_GICC_IAR          (GICV2_ACPU_BASE_ADDRESS + 0x0000000CU)
+#define GICV2_GICC_EOIR         (GICV2_ACPU_BASE_ADDRESS + 0x00000010U)
 
 
 int gicv2_dist_init()
@@ -68,12 +68,12 @@ int gicv2_set_irq_target(unsigned int irq, unsigned int cpu_target)
 
 int gicv2_set_irq_unmask(unsigned int irq)
 {
-	int int_grp, int_off;
+    int int_grp, int_off;
 
-	int_grp = irq / 32;
-	int_off = irq % 32;
+    int_grp = irq / 32;
+    int_off = irq % 32;
 
-	sys_write32( (1 << int_off), (GICV2_GICD_ISENABLER + int_grp * 4) );
+    sys_write32( (1 << int_off), (GICV2_GICD_ISENABLER + int_grp * 4) );
     return 0;
 }
 

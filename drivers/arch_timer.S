@@ -18,3 +18,10 @@ arch_timer_enable:
 	msr cntv_ctl_el0, x0
 	isb
 	ret
+
+.global arch_timer_disable
+arch_timer_disable:
+	mov x0, #0
+	mrs x0, cntv_ctl_el0
+	isb
+	ret
