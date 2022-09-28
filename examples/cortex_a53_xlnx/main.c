@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <unistd.h>
-#include "pseudo_asm.h"
 #include "gicv2.h"
 #include "xilinx_uart_ps.h"
 #include "arch_timer.h"
@@ -41,7 +40,7 @@ void systick_handler(void *arg) {
 
 int main(void) {
 
-	uartps_puts("28/09/2022 - 01\r\n");
+	uartps_puts("Embedded OS - 28/09/2022 - 87\r\n");
 
 	/* EL3(S) --> By default IRQ/FIQ belongs to Group0 (Secure) */
 	gicv2_dist_init();
