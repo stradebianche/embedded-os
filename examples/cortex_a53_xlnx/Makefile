@@ -1,6 +1,5 @@
 INCLUDES += -I../../source/arch/arm64
 INCLUDES += -I../../source/drivers/include
-INCLUDES += -I../../source/drivers
 
 OBJS += build/translation_tables.o
 
