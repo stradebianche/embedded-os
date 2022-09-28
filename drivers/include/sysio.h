@@ -1,6 +1,8 @@
 #ifndef _SYSIO_H_
 #define _SYSIO_H_
 
+#include <stdio.h>
+
 /*
  * Based on Zephyr implementation, direct assembly operations
  */
