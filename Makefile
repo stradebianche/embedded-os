@@ -1,42 +1,45 @@
 INCLUDES += -I./drivers/include
 INCLUDES += -I./drivers
 
-OBJS += boards/translation_tables.o
+OBJS += build/translation_tables.o
 
-OBJS += boot/main.o \
-boot/startup.o \
-boot/boot.o \
-boot/vectors.o \
-boot/irq_fiq_handler.o \
-boot/os_interrupt_handler.o \
-boot/exceptions.o \
+OBJS += build/main.o \
+build/startup.o \
+build/boot.o \
+build/vectors.o \
+build/irq_fiq_handler.o \
+build/os_interrupt_handler.o \
+build/exceptions.o \
 
 OBJS += \
-./drivers/xilinx_uart_ps.o \
-./drivers/gicv2.o \
-./drivers/arch_timer.o \
+build/xilinx_uart_ps.o \
+build/gicv2.o \
+build/arch_timer.o \
 
 CFLAG = -Wall -g -O0
 CC = aarch64-none-elf-gcc
 LIBS =
 LINKER_PATH = ./boards/linker-ultrazed.ld
 
-boards/%.o: boards/%.S
+build/%.o: boards/%.S
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
-boot/%.o: boot/%.c
+build/%.o: boot/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
-boot/%.o: boot/%.S
+build/%.o: boot/%.S
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
-drivers/%.o: drivers/%.c
+build/%.o: drivers/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+
+build/%.o: drivers/%.S
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 image.elf:${OBJS}
 	@echo 'Building target: $@'
-	${CC} ${CFLAGS} -Wl,-T$(LINKER_PATH) ${INCLUDES} -o $@ ${OBJS} ${LIBS}
+	${CC} ${CFLAGS} -Wl,-T$(LINKER_PATH) ${INCLUDES} -o $@ ${OBJS} ${LIBS} -Wl,--print-memory-usage
+	@echo  'Done.'
 
 clean:
 	-rm -rf *.o image.elf ${OBJS}
-

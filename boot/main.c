@@ -41,7 +41,7 @@ void systick_handler(void *arg) {
 
 int main(void) {
 
-	uartps_puts("27/09/2022 - 03\r\n");
+	uartps_puts("28/09/2022 - 01\r\n");
 
 	/* EL3(S) --> By default IRQ/FIQ belongs to Group0 (Secure) */
 	gicv2_dist_init();
