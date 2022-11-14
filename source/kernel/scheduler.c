@@ -63,7 +63,7 @@ void os_start_task_scheduler( void ) {
 	port_start_first_task();
 
 	/* This should never execute */
-	for(;;);
+//	for(;;);
 }
 
 

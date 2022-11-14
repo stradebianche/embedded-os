@@ -12,9 +12,9 @@
 
 
 /* Stack size definitions. */
-#define STACK_MIN_SIZE	64
-#define STACK_MID_SIZE	128
-#define STACK_MAX_SIZE	256
+#define STACK_MIN_SIZE	64 * 8
+#define STACK_MID_SIZE	128 * 8
+#define STACK_MAX_SIZE	256 * 8
 
 
 /* Switching frequency */

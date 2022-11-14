@@ -1,5 +1,6 @@
 INCLUDES += -I../../source/arch/arm64
 INCLUDES += -I../../source/drivers/include
+INCLUDES += -I../../source/kernel
 
 OBJS += build/translation_tables.o
 
@@ -10,11 +11,17 @@ build/vectors.o \
 build/irq_fiq_handler.o \
 build/os_interrupt_handler.o \
 build/exceptions.o \
+build/port.o \
 
 OBJS += \
 build/xilinx_uart_ps.o \
 build/gicv2.o \
 build/arch_timer.o \
+
+OBJS += \
+build/scheduler.o \
+build/task_queue.o \
+build/task.o \
 
 CFLAG = -Wall -g -O0
 CC = aarch64-none-elf-gcc
@@ -40,6 +47,9 @@ build/%.o: ../../source/drivers/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 build/%.o: ../../source/drivers/%.S
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+
+build/%.o: ../../source/kernel/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 image.elf:${OBJS}

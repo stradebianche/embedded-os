@@ -5,6 +5,8 @@
 #include "arch_timer.h"
 #include "exceptions.h"
 
+#include "scheduler.h"
+
 volatile unsigned int * const UART0DR = (unsigned int *)0x09000000;
 
 static void puts_uart(const char *s)
@@ -38,9 +40,28 @@ void systick_handler(void *arg) {
 	systick = 1;
 }
 
+
+/* First thread handler function */
+int thread1(void) {
+	for(;;) {
+		/* This for ensure atomic operation */
+		uartps_puts("task 1   . \r\n");
+
+		for (unsigned long long i = 0; i < 64000000; i++) {
+			asm volatile ("nop");
+			asm volatile ("nop");
+			asm volatile ("nop");
+			asm volatile ("nop");
+			asm volatile ("nop");
+		}
+	}
+	return 0;
+}
+
+
 int main(void) {
 
-	uartps_puts("Embedded OS - 28/09/2022 - 87\r\n");
+	uartps_puts("Embedded OS - 29/09/2022 - 00\r\n");
 
 	/* EL3(S) --> By default IRQ/FIQ belongs to Group0 (Secure) */
 	gicv2_dist_init();
@@ -54,11 +75,21 @@ int main(void) {
 	/* register handler for arch timer interrupt */
 	exc_register_handler(IRQ_TIMER_CNTNCT_EL0, systick_handler);
 
+	/* Initialize system components */
+	os_init_system();
+
 	/* enable exceptions */
 	exc_enable();
 
 	/* enable timer */
 	arch_timer_enable();
+
+	/* Add some tasks with minimal stack size */
+	os_create_task(thread1, STACK_MIN_SIZE);
+//	os_create_task(thread2, STACK_MIN_SIZE);
+
+	/* Start executing tasks */
+	os_start_task_scheduler();
 
 	for(;;) {
 		if (systick) {
