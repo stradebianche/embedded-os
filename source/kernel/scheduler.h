@@ -36,5 +36,10 @@ void os_start_task_scheduler( void );
  */
 void os_proc_task_scheduler( void );
 
+/*
+ *	TODO:
+ */
+void os_task_yield( void );
+
 
 #endif /* SCHEDULER_H_ */

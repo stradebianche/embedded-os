@@ -63,7 +63,7 @@ void os_start_task_scheduler( void ) {
 	port_start_first_task();
 
 	/* This should never execute */
-//	for(;;);
+	for(;;);
 }
 
 
@@ -81,6 +81,14 @@ void os_proc_task_scheduler( void ) {
 	tcb = task_queue_take( &task_queue );
 	/* Set stack pointer value to port layer */
 	port_set_new_stack_pointer( tcb->stack_ptr );
+}
+
+
+/*
+ *	TODO:
+ */
+void os_task_yield( void ) {
+
 }
 
 
