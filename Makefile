@@ -20,6 +20,9 @@ CFLAG = -Wall -g -O0
 CC = aarch64-none-elf-gcc
 LIBS =
 LINKER_PATH = ./boards/linker-ultrazed.ld
+OUT = build
+
+$(shell   mkdir -p $(OUT))
 
 build/%.o: boards/%.S
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
@@ -42,4 +45,4 @@ image.elf:${OBJS}
 	@echo  'Done.'
 
 clean:
-	-rm -rf *.o image.elf ${OBJS}
+	-rm -rf *.o image.elf ${OUT}
