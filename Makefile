@@ -9,7 +9,8 @@ boot/boot.o \
 boot/vectors.o \
 
 OBJS += \
-./drivers/xilinx_uart_ps.o
+./drivers/xilinx_uart_ps.o \
+./drivers/gicv2.o
 
 CFLAG = -Wall -g -O0
 CC = aarch64-none-elf-gcc
