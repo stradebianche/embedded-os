@@ -28,11 +28,11 @@ init_el3:
 
 	mrs x0, scr_el3
 	orr x0, x0, #(1<<10)	/* The next lower level is AArch64 */
-	orr x0, x0, #(1 << 3)   /* SError routed to EL3 */
-	orr x0, x0, #(1 << 2)   /* FIQs routed to EL3 */
-	orr x0, x0, #(1 << 1)   /* IRQs routed to EL3 */
-	orr x0, x0, #(1<<0)	    /* Exception levels lower than EL3 are in */
-                            /* non-secure state                       */
+	orr x0, x0, #(1 << 3)	/* SError routed to EL3 */
+	orr x0, x0, #(1 << 2)	/* FIQs routed to EL3 */
+	orr x0, x0, #(1 << 1)	/* IRQs routed to EL3 */
+	orr x0, x0, #(1<<0)		/* Exception levels lower than EL3 are in */
+							/* non-secure state                       */
 
 	msr scr_el3, x0
 	isb
@@ -62,13 +62,13 @@ init_el3:
 	bic x0, x0, #(1 << 8)
 	msr daif, x0
 
-	/* enable mmu, caches (NOT ENABLED), sp aligment */
+	/* enable mmu, caches, sp aligment */
 	// https://developer.arm.com/documentation/ddi0601/2021-03/AArch64-Registers/SCTLR-EL1--System-Control-Register--EL1-?lang=en
 	mov x1, xzr
 	orr x1, x1, #(1 << 5)
-	/* orr x1, x1, #(1 << 12)	// I caches */
+	orr x1, x1, #(1 << 12)		// I caches
 	orr x1, x1, #(1 << 3)		// SP aligment check
-	/* orr x1, x1, #(1 << 2)	// D caches */
+	orr x1, x1, #(1 << 2)		// D caches
 	orr x1, x1, #(1 << 0)		// MMU
 	msr sctlr_el3, x1
 

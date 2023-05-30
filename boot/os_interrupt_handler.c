@@ -1,13 +1,11 @@
 #include "sysio.h"
 #include "gicv2.h"
 #include "arch_timer.h"
-
-extern int systick;
+#include "exceptions.h"
 
 void os_interrupt_handler(void) 
 {
     unsigned int int_id;
-    unsigned long long counter;
 
     /* read ACK register */
     int_id = gicv2_read_iar();
@@ -21,16 +19,12 @@ void os_interrupt_handler(void)
 
     int_id = int_id & 0x3FFU; /* int ack mask */
 
-    switch(int_id) {
-    case 27:
-        counter = arch_timer_get_count();
-        /* writing value bigger than current CNTVCT_EL0 will clear irq bit in CNTV_CTL_EL0 */
-        arch_timer_set_comp_value(counter + (unsigned long long)0x10000000);
-        systick = 1;
-        break;
-    default:
-        break;
+    /* check for spurious interrupt */
+    if (int_id >= 1020) {
+        return;
     }
+
+    exc_execute(int_id, NULL);
 
     /* write EOI register */
     gicv2_write_eoir(int_id);
