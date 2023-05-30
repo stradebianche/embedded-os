@@ -3,6 +3,8 @@
 #include "arch_timer.h"
 #include "exceptions.h"
 
+unsigned long dbg_spurious_counter = 0;
+
 void os_interrupt_handler(void) 
 {
     unsigned int int_id;
@@ -21,6 +23,7 @@ void os_interrupt_handler(void)
 
     /* check for spurious interrupt */
     if (int_id >= 1020) {
+        dbg_spurious_counter++;
         return;
     }
 
