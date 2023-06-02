@@ -1,5 +1,6 @@
-INCLUDES += -I./drivers/include
-INCLUDES += -I./drivers
+INCLUDES += -I../../source/arch/arm64
+INCLUDES += -I../../source/drivers/include
+INCLUDES += -I../../source/drivers
 
 OBJS += build/translation_tables.o
 
@@ -19,24 +20,27 @@ build/arch_timer.o \
 CFLAG = -Wall -g -O0
 CC = aarch64-none-elf-gcc
 LIBS =
-LINKER_PATH = ./boards/linker-ultrazed.ld
+LINKER_PATH = ../../source/boards/linker-ultrazed.ld
 OUT = build
 
 $(shell   mkdir -p $(OUT))
 
-build/%.o: boards/%.S
+build/%.o: ./%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
-build/%.o: boot/%.c
+build/%.o: ../../source/boards/%.S
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
-build/%.o: boot/%.S
+build/%.o: ../../source/arch/arm64/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
-build/%.o: drivers/%.c
+build/%.o: ../../source/arch/arm64/%.S
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
-build/%.o: drivers/%.S
+build/%.o: ../../source/drivers/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+
+build/%.o: ../../source/drivers/%.S
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 image.elf:${OBJS}
